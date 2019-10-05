@@ -2,8 +2,9 @@
 
 <body>
 
-    <textarea id='input'></textarea>
-    <button id='run'>input</button>
+    <label>请输入 年应纳税所得额</label>
+    <input type='text' id='input'></input>
+    <button id='run'>确认</button>
 
     <p id='output'></p>
     <p>最佳方案种类明细</p>
@@ -126,12 +127,11 @@
                 taxY,
             });
         }
-        const msg = `${max} 月总收入：${lastM} 年终奖：${lastY} 月扣税：${lastTaxM} 年扣税：${lastTaxY}`;
+        //const msg = `最大税后收入：${max} 月总收入：${lastM} 年终奖：${lastY} 月扣税：${lastTaxM} 年扣税：${lastTaxY}`;
+        const msg = `最优纳税额税：${val-max} 最优税后收入：${max}`;
         const o = document.getElementById('output');
         o.innerText = msg;
-
         const maxEnums = [];
-
         for (let i = 0; i < enumRes.length; ++ i) {
             const e = enumRes[i];
             if (e.money >= max) {
@@ -173,9 +173,9 @@
 
         function buildIntervalMsg(interval) {
             if (interval.e0.m == interval.e1.m) {
-                return `月总税前收入（唯一方案）：${interval.e0.m} 年总税前收入：${interval.e0.y}`;
+                return `（唯一方案）月工资应纳税所得额：${interval.e0.m} 年终奖应纳税所得额：${interval.e0.y}`;
             } else {
-                return `月总税前收入（多选方案）：${interval.e0.m}~${interval.e1.m}年总税前收入：${interval.e0.y}~${interval.e1.y}`;
+                return `（多选方案）月工资应纳税所得额：${interval.e0.m}~${interval.e1.m} 年终奖应纳税所得额：${interval.e0.y}~${interval.e1.y}`;
             }
         }
 
