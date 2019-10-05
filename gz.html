@@ -1,0 +1,141 @@
+<html>
+
+<body>
+
+    <textarea id='input'></textarea>
+    <button id='run'>input</button>
+
+    <p id='output'></p>
+<script>
+    
+
+    
+    function makePair(a, b) {
+        return {
+            a,
+            b
+        }
+    }
+
+    function deducationMonth(x) {
+        const arr = [
+            makePair(36000, 0),
+            makePair(144000, 2520),
+            makePair(300000, 16920),
+            makePair(420000, 31920),
+            makePair(660000, 52920),
+            makePair(960000, 85920),
+        ];
+        for (let i = 0; i < arr.length; ++ i) {
+            if (x <= arr[i].a) {
+                return arr[i].b;
+            }
+        }
+        return 181920;
+    }
+
+    function deducationYear(x) {
+        x = x/12;
+        const arr = [
+            makePair(3000, 0),
+            makePair(12000, 210),
+            makePair(25000, 1410),
+            makePair(35000, 2660),
+            makePair(55000, 4410),
+            makePair(80000, 7160),
+        ];
+        for (let i = 0; i < arr.length; ++ i) {
+            if (x <= arr[i].a) {
+                return arr[i].b;
+            }
+        }
+        return 15160;
+    }
+
+    function preTaxRateMonth(x) {
+        const arr = [
+            makePair(36000, 3),
+            makePair(144000, 10),
+            makePair(300000, 20),
+            makePair(420000, 25),
+            makePair(660000, 30),
+            makePair(960000, 35),
+        ];
+        for (let i = 0; i < arr.length; ++ i) {
+            if (x <= arr[i].a) {
+                return arr[i].b;
+            }
+        }
+        return 45;
+    }
+
+    function preTaxRateYear(x) {
+        x = x/12;
+        const arr = [
+            makePair(3000, 3),
+            makePair(12000, 10),
+            makePair(25000, 20),
+            makePair(35000, 25),
+            makePair(55000, 30),
+            makePair(80000, 35),
+        ];
+        for (let i = 0; i < arr.length; ++ i) {
+            if (x <= arr[i].a) {
+                return arr[i].b;
+            }
+        }
+        return 45;
+    }
+
+
+    function calcTax(m, y) {
+        const taxM = m*preTaxRateMonth(m)/100 - deducationMonth(m);
+        const taxY = y*preTaxRateYear(y)/100 - deducationYear(y);
+        return {
+            tax: taxM + taxY,
+            taxM,
+            taxY,
+        };
+    }
+
+
+    const start_btn = document.getElementById('run');
+    const enumRes = [];
+    start_btn.addEventListener('click', () => {
+        const val = parseInt(document.getElementById('input').value);
+        let max = -1;
+        let lastM = 0;
+        let lastY = 0;
+        let lastTaxM = 0;
+        let lastTaxY = 0;
+        for (let i = 0; i <= val; ++ i) {
+            const m = i;
+            const y = val-i;
+            const {tax, taxM, taxY} = calcTax(m, y);
+            const money = val - tax;
+            if (max < money) {
+                max = money;
+                lastM = m;
+                lastY = y;
+                lastTaxM = taxM;
+                lastTaxY = taxY;
+            }
+            enumRes.push({
+                money,
+                m,
+                y,
+                taxM,
+                taxY,
+            });
+        }
+        const msg = `${max} 月总收入：${lastM} 年终奖：${lastY} 月扣税：${lastTaxM} 年扣税：${lastTaxY}`;
+        const o = document.getElementById('output');
+        o.innerText = msg;
+    });
+    
+
+
+
+</script>
+</body>
+</html>
