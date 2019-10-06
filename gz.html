@@ -4,6 +4,8 @@
     <h1>2019--2021年度年终一次性奖金最优速查</h1>
     <label>请输入 年应纳税所得额</label>
     <input type='text' id='input'></input>
+    <label>请输入 步长 默认为1元</label>
+    <input type='text' id='step'></input>
     <button id='run'>确认</button>
 
     <p id='output'></p>
@@ -105,7 +107,8 @@
     }
     start_btn.addEventListener('click', () => {
         const val = parseInt(document.getElementById('input').value);
-        if (val < 50000) {
+        const step = parseFloat(document.getElementById('step').value) || 1;
+        /*if (val < 50000) {
             alert('工资太少，不管');
             refresh();
             return;
@@ -113,13 +116,14 @@
             alert('工资太高，不管');
             refresh();
             return;
-        }
+        }*/
         let max = -1;
         let lastM = 0;
         let lastY = 0;
         let lastTaxM = 0;
         let lastTaxY = 0;
-        for (let i = 0; i <= val; ++ i) {
+        console.log('step = ', step);
+        for (let i = 0; i <= val; i += step) {
             const m = i;
             const y = val-i;
             const {tax, taxM, taxY} = calcTax(m, y);
@@ -169,7 +173,7 @@
         const intervals = [];
         for (let i = 0; i < maxEnums.length; ++ i) {
             const e = maxEnums[i];
-            if (e.m - lastIndex.m > 1) {
+            if (e.m - lastIndex.m > step) {
                 if (isValidE(lastStart) && isValidE(lastIndex)) {
                     intervals.push(buildInterval(lastStart, lastIndex));
                 }
@@ -179,9 +183,11 @@
         }
 
         if (!lastStart.build) {
+            if (lastStart.m == -1) {
+                lastStart = lastIndex;
+            }
             intervals.push(buildInterval(lastStart, lastIndex));
         }
-
 
         function buildIntervalMsg(interval) {
             if (interval.e0.m == interval.e1.m) {
