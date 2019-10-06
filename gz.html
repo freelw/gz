@@ -108,9 +108,11 @@
         if (val < 50000) {
             alert('工资太少，不管');
             refresh();
+            return;
         } else if (val > 10000000) {
             alert('工资太高，不管');
             refresh();
+            return;
         }
         let max = -1;
         let lastM = 0;
