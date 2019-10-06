@@ -7,7 +7,7 @@
     <button id='run'>确认</button>
 
     <p id='output'></p>
-    <p>最佳分配方案</p>
+    <p>最佳方案</p>
     <script>
     
     function makePair(a, b) {
@@ -173,7 +173,7 @@
 
         function buildIntervalMsg(interval) {
             if (interval.e0.m == interval.e1.m) {
-                return `（唯一方案）月工资应纳税所得额：${interval.e0.m} 年终奖应纳税所得额：${interval.e0.y}`;
+                return `（单一方案）月工资应纳税所得额：${interval.e0.m} 年终奖应纳税所得额：${interval.e0.y}`;
             } else {
                 return `（多选方案）月工资应纳税所得额：${interval.e0.m}~${interval.e1.m} 年终奖应纳税所得额：${interval.e0.y}~${interval.e1.y}`;
             }
